@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { HashRouter, Route, Switch, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import BigNumber from 'bignumber.js'
 import { useWeb3React } from '@web3-react/core'
@@ -16,14 +16,22 @@ import PageHeader from 'components/PageHeader'
 import SearchInput from 'components/SearchInput'
 import Select, { OptionProps } from 'components/Select/Select'
 import { Pool } from 'state/types'
+import ThreeCard from './components/ThreeCard'
 import PoolCard from './components/PoolCard'
 import AnpanVaultCard from './components/AnpanVaultCard'
 import PoolTabButtons from './components/PoolTabButtons'
 import BountyCard from './components/BountyCard'
+import FarmCard from './components/FarmCard'
+import StakeCard from './components/StakeCard'
+import SwapCard from './components/SwapCard'
 import HelpButton from './components/HelpButton'
 import PoolsTable from './components/PoolsTable/PoolsTable'
 import { ViewMode } from './components/ToggleView/ToggleView'
 import { getAprData, getAnpanVaultEarnings } from './helpers'
+import Home from './Home'
+import Farm from './Farm'
+import Stake from './Stake'
+import Swap from './Swap'
 
 const CardLayout = styled(FlexLayout)`
   justify-content: center;
@@ -105,23 +113,7 @@ const Referral: React.FC = () => {
   useFetchAnpanVault()
   useFetchPublicPoolsData()
 
-  useEffect(() => {
-    const showMorePools = (entries) => {
-      const [entry] = entries
-      if (entry.isIntersecting) {
-        setNumberOfPoolsVisible((poolsCurrentlyVisible) => poolsCurrentlyVisible + NUMBER_OF_POOLS_VISIBLE)
-      }
-    }
 
-    if (!observerIsSet) {
-      const loadMoreObserver = new IntersectionObserver(showMorePools, {
-        rootMargin: '0px',
-        threshold: 1,
-      })
-      loadMoreObserver.observe(loadMoreRef.current)
-      setObserverIsSet(true)
-    }
-  }, [observerIsSet])
 
   const showFinishedPools = location.pathname.includes('history')
 
@@ -221,17 +213,39 @@ const Referral: React.FC = () => {
           </Flex>
           {account?(
           <Flex flex="1" height="fit-content" justifyContent="center" alignItems="center" mt={['20px', null, '0']}>
-
             <BountyCard />
           </Flex>
           ) : (null)
           }
         </Flex>
+        {account?(
+        <Flex>
+        <Flex justifyContent="center" alignItems="center" flexDirection={['column', null, null, 'row']} mt="32px">
+          <Flex mr='16px'>
+          <FarmCard/>
+          </Flex>
+          <Flex mr='16px'>
+          <StakeCard/>
+          </Flex>
+          <Flex mr='16px'>
+          <SwapCard/>
+          </Flex>
+        </Flex>
+        </Flex>   
+        ) : (null)
+        }       
       </PageHeader>
-
       <Page>
+      {account? (
         <PoolControls justifyContent="space-between">
-        {account? (
+                  <HashRouter>
+          <Switch>
+            <Route exact strict path="/" component={Home} />
+            <Route exact strict path="/farm" component={Farm} />
+            <Route exact strict path="/pool" component={Stake} />
+            <Route exact strict path="/swap" component={Swap} />
+          </Switch>                    
+        </HashRouter>
           <PoolTabButtons
             stakedOnly={stakedOnly}
             setStakedOnly={setStakedOnly}
@@ -239,7 +253,6 @@ const Referral: React.FC = () => {
             viewMode={viewMode}
             setViewMode={setViewMode}
           />
-          ) : (null)}
           <SearchSortContainer>
             <Flex flexDirection="column" width="50%">
               <Text fontSize="12px" bold color="textSubtle" textTransform="uppercase">
@@ -279,21 +292,10 @@ const Referral: React.FC = () => {
             </Flex>
           </SearchSortContainer>
         </PoolControls>
-        {showFinishedPools && (
-          <Text fontSize="20px" color="failure" pb="32px">
-            {t('These pools are no longer distributing rewards. Please unstake your tokens.')}
-          </Text>
+        ) : 
+        (
+          <ThreeCard />
         )}
-        {viewMode === ViewMode.CARD ? cardLayout : tableLayout}
-        <div ref={loadMoreRef} />
-        <Image
-          mx="auto"
-          mt="12px"
-          src="/images/decorations/logo.png"
-          alt="Anpans illustration"
-          width={64}
-          height={64}
-        />
       </Page>
 
     </>
