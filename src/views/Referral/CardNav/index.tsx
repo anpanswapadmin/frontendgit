@@ -18,7 +18,7 @@ function Nav({ activeIndex = 0 }: { activeIndex?: number }) {
   return (
     <StyledNav>
       <ButtonMenu activeIndex={activeIndex} scale="sm" variant="secondary">
-      <ButtonMenuItem id="farm-nav-link" to="/" as={Link} mr="16px">
+      <ButtonMenuItem id="home-nav-link" to="/" as={Link} mr="16px">
           {t('Referral list')}
         </ButtonMenuItem>
         <ButtonMenuItem id="farm-nav-link" to="/farm" as={Link} mr="16px">
@@ -29,6 +29,12 @@ function Nav({ activeIndex = 0 }: { activeIndex?: number }) {
         </ButtonMenuItem>
         <ButtonMenuItem id="swap-nav-link" to="/swap" as={Link} mr="16px">
           {t('Swap')}
+        </ButtonMenuItem>
+        <ButtonMenuItem id="prediction-nav-link" to="/prediction" as={Link} mr="16px">
+          {t('Prediction')}
+        </ButtonMenuItem>
+        <ButtonMenuItem id="nft-nav-link" to="/nft" as={Link} mr="16px">
+          {t('NFTLaunchPad')}
         </ButtonMenuItem>
       </ButtonMenu>
     </StyledNav>

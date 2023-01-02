@@ -24,6 +24,8 @@ import BountyCard from './components/BountyCard'
 import FarmCard from './components/FarmCard'
 import StakeCard from './components/StakeCard'
 import SwapCard from './components/SwapCard'
+import PredictionCard from './components/PredictionCard'
+import NFTCard from './components/NFTCard'
 import HelpButton from './components/HelpButton'
 import PoolsTable from './components/PoolsTable/PoolsTable'
 import { ViewMode } from './components/ToggleView/ToggleView'
@@ -32,6 +34,9 @@ import Home from './Home'
 import Farm from './Farm'
 import Stake from './Stake'
 import Swap from './Swap'
+import Prediction from './Prediction'
+import NFTLaunchPad from './NFTLaunchPad'
+import GlobalDataContextProvider from './contexts/GlobalData'
 
 const CardLayout = styled(FlexLayout)`
   justify-content: center;
@@ -230,72 +235,38 @@ const Referral: React.FC = () => {
           <Flex mr='16px'>
           <SwapCard/>
           </Flex>
+          <Flex mr='16px'>
+          <PredictionCard/>
+          </Flex>
+          <Flex mr='16px'>
+          <NFTCard/>
+          </Flex>
         </Flex>
         </Flex>   
         ) : (null)
         }       
       </PageHeader>
       <Page>
+      <GlobalDataContextProvider>
       {account? (
         <PoolControls justifyContent="space-between">
-                  <HashRouter>
+          <HashRouter>
           <Switch>
             <Route exact strict path="/" component={Home} />
             <Route exact strict path="/farm" component={Farm} />
             <Route exact strict path="/pool" component={Stake} />
             <Route exact strict path="/swap" component={Swap} />
+            <Route exact strict path="/prediction" component={Prediction} />
+            <Route exact strict path="/nft" component={NFTLaunchPad} />
           </Switch>                    
         </HashRouter>
-          <PoolTabButtons
-            stakedOnly={stakedOnly}
-            setStakedOnly={setStakedOnly}
-            hasStakeInFinishedPools={hasStakeInFinishedPools}
-            viewMode={viewMode}
-            setViewMode={setViewMode}
-          />
-          <SearchSortContainer>
-            <Flex flexDirection="column" width="50%">
-              <Text fontSize="12px" bold color="textSubtle" textTransform="uppercase">
-                {t('Sort by')}
-              </Text>
-              <ControlStretch>
-                <Select
-                  options={[
-                    {
-                      label: t('Hot'),
-                      value: 'hot',
-                    },
-                    {
-                      label: t('APR'),
-                      value: 'apr',
-                    },
-                    {
-                      label: t('Earned'),
-                      value: 'earned',
-                    },
-                    {
-                      label: t('Total staked'),
-                      value: 'totalStaked',
-                    },
-                  ]}
-                  onChange={handleSortOptionChange}
-                />
-              </ControlStretch>
-            </Flex>
-            <Flex flexDirection="column" width="50%">
-              <Text fontSize="12px" bold color="textSubtle" textTransform="uppercase">
-                {t('Search')}
-              </Text>
-              <ControlStretch>
-                <SearchInput onChange={handleChangeSearchQuery} placeholder="Search Pools" />
-              </ControlStretch>
-            </Flex>
-          </SearchSortContainer>
+          
         </PoolControls>
         ) : 
         (
           <ThreeCard />
         )}
+        </GlobalDataContextProvider>
       </Page>
 
     </>

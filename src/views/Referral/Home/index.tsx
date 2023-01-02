@@ -1,11 +1,16 @@
+// @ts-nocheck
+/*eslint-disable */
 import { CurrencyAmount, JSBI, Token, Trade } from '@anpanswap-libs/sdk'
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { ArrowDown } from 'react-feather'
-import { CardBody, ArrowDownIcon, Button, IconButton, Text } from '@anpanswap/uikit'
+import { CardBody, ArrowDownIcon, Button, IconButton, Text, Flex } from '@anpanswap/uikit'
 import { ThemeContext } from 'styled-components'
-
 import { useTranslation } from 'contexts/Localization'
+import Panel from '../components/Panel'
+import TxnList from '../components/TxnList/TxnList'
+import { useGlobalTransactions } from '../contexts/GlobalData'
 import CardNav from '../CardNav'
+import FarmsRow from '../../Home/components/FarmsRow'
 
 
 const Home = () => {
@@ -72,12 +77,22 @@ const Home = () => {
     [setTransactionWarning]
   )
 
+  const transactions = useGlobalTransactions()
+
   return (
     <>
+     <Flex flexDirection={['row', null, null, 'column']}>     
       <CardNav />
-      <Text>
-        Referral list
-      </Text>
+      <FarmsRow />
+      <span>
+        <Text fontSize={'1.125rem'} style={{ marginTop: '2rem' }}>
+          Referral List
+        </Text>
+      </span>
+      <Panel style={{ margin: '1rem 0' }}>
+        <TxnList transactions={transactions} />
+      </Panel>
+     </Flex>
     </>
   )
 }

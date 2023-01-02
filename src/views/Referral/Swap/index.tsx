@@ -1,7 +1,7 @@
 import { CurrencyAmount, JSBI, Token, Trade } from '@anpanswap-libs/sdk'
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { ArrowDown } from 'react-feather'
-import { CardBody, ArrowDownIcon, Button, IconButton, Text } from '@anpanswap/uikit'
+import { CardBody, ArrowDownIcon, Button, IconButton, Text, Flex } from '@anpanswap/uikit'
 import { ThemeContext } from 'styled-components'
 
 import { useTranslation } from 'contexts/Localization'
@@ -74,10 +74,12 @@ const Swap = () => {
 
   return (
     <>
-      <CardNav />
+     <Flex flexDirection={['row', null, null, 'column']}>
+      <CardNav activeIndex={3} />
       <Text>
         Swap
       </Text>
+     </Flex>
     </>
   )
 }

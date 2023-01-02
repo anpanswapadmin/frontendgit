@@ -8,7 +8,7 @@ import { useTranslation } from 'contexts/Localization'
 import CardNav from '../CardNav'
 
 
-const Stake = () => {
+const NFTLaunchPad = () => {
 
   const { t } = useTranslation()
 
@@ -75,13 +75,13 @@ const Stake = () => {
   return (
     <>
      <Flex flexDirection={['row', null, null, 'column']}>
-      <CardNav activeIndex={2} />
+      <CardNav activeIndex={5} />
       <Text>
-        Stake
+        NFTLaunchPad
       </Text>
      </Flex>
     </>
   )
 }
 
-export default Stake
+export default NFTLaunchPad
